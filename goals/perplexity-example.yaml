@@ -1,0 +1,14 @@
+# 예시: Perplexity에 질문하고, 출처와 핵심 키워드가 들어간 답이 나올 때까지 최대 3회 반복
+prompt: "Node.js 22 LTS의 주요 변경점을 한국어로 5가지 정리해줘. 각 항목에 출처를 달아줘."
+maxIterations: 3
+criteria:
+  - contains: ["Node"]
+  - min_length: 300
+  - regex: "(1\\.|①|- )"
+refine:
+  strategy: template
+  template: |
+    {{goal_prompt}}
+    (참고: 이전 답변은 다음 이유로 부족했습니다: {{reasons}})
+output:
+  saveTo: ./out/perplexity-example.md

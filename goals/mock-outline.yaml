@@ -1,0 +1,13 @@
+# 목업 사이트용 목표: 3번째 시도에서야 조건을 만족한다
+prompt: "Windows 파일 복구 프로그램 리뷰 글 목차를 만들어줘"
+maxIterations: 5
+criteria:
+  - contains: ["설치", "사용법", "장단점"]
+  - min_length: 30
+refine:
+  strategy: template
+  template: |
+    이전 답변에 다음 문제가 있었습니다: {{reasons}}
+    이를 반영해서 다시 작성해 주세요.
+output:
+  saveTo: ./out/mock-outline.md

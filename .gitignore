@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.webloop/
+out/
+*.log
+.DS_Store
+Thumbs.db
+webloop.local.yaml
