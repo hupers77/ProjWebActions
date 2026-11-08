@@ -1,0 +1,30 @@
+# 테스트용 목업 사이트 프로파일 (npm run mock 으로 http://127.0.0.1:4780 실행)
+name: mock-chat
+description: 로컬 목업 채팅 사이트 (개발·테스트용)
+url: http://127.0.0.1:4780/
+browser:
+  mode: ephemeral
+  headless: true
+session: continue
+newSession:
+  click: "button[aria-label='New chat']"
+input:
+  selector: "textarea#prompt"
+  method: fill
+submit:
+  press: Enter
+wait:
+  all:
+    - new_element: ".message.assistant"
+    - selector_hidden: "button[aria-label='Stop']"
+    - text_stable: { selector: ".message.assistant .md", ms: 800 }
+  startTimeoutMs: 10000
+  timeoutMs: 30000
+extract:
+  text: ".message.assistant .md"
+  format: markdown
+  extra:
+    sources: ".message.assistant:last-child a.source"
+authCheck:
+  urlContains: "/login"
+cooldownMs: 200

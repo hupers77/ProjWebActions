@@ -1,0 +1,9 @@
+# webloop 공용 설정 (git 포함). PC별 설정은 webloop.local.yaml(git 제외)에 적으면 이 값을 덮어씁니다.
+#   macOS 테스트 PC:  echo "browser: whale" > webloop.local.yaml
+#   Windows 실사용 PC: 기본값(edge) 그대로 사용
+browser: edge
+profilesDir: ./profiles
+goalsDir: ./goals
+dataDir: ./.webloop
+ui:
+  port: 4777

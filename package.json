@@ -1,0 +1,41 @@
+{
+  "name": "webloop",
+  "version": "0.1.0",
+  "description": "웹사이트 입력창에 글을 보내고 응답을 받아오며, 목표를 만족할 때까지 반복하는 CLI (Windows/macOS, Edge/Chrome/Whale)",
+  "type": "module",
+  "bin": {
+    "webloop": "dist/cli/index.js"
+  },
+  "files": [
+    "dist",
+    "profiles",
+    "goals",
+    "docs",
+    "AGENTS.md"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json && node scripts/copy-assets.mjs",
+    "dev": "tsx src/cli/index.ts",
+    "test": "vitest run",
+    "test:unit": "vitest run test/unit",
+    "test:e2e": "vitest run test/e2e",
+    "mock": "tsx test/mock-site/start.ts",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "commander": "^14.0.0",
+    "playwright-core": "^1.55.0",
+    "yaml": "^2.8.0",
+    "zod": "^4.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.20.0",
+    "typescript": "~5.9.3",
+    "vitest": "^3.2.0"
+  },
+  "license": "MIT"
+}

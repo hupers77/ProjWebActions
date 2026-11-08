@@ -1,0 +1,60 @@
+# Perplexity (https://www.perplexity.ai/) — 첫 번째 실사용 프로파일
+#
+# ⚠️ 셀렉터는 사이트 개편 시 바뀔 수 있습니다. 실제 PC에서 먼저 점검하세요:
+#   webloop profile test perplexity                 # 셀렉터 확인
+#   webloop profile test perplexity --send "안녕"    # 실제 1회 전송까지 확인
+# 로그인(선택): 비로그인도 질문 가능하지만 사용량 제한이 있음. 로그인하려면
+#   webloop login perplexity
+# 이용약관: 자동화 사용 전 https://www.perplexity.ai/hub/legal/terms-of-service 를 확인하세요.
+#   대량·고빈도 사용이 필요하면 공식 API(Sonar API)를 우선 검토하세요.
+name: perplexity
+description: Perplexity AI 검색 — 질문을 보내고 답변(마크다운)과 출처 링크를 수집
+url: https://www.perplexity.ai/
+terms: https://www.perplexity.ai/hub/legal/terms-of-service
+
+browser:
+  mode: persistent        # 로그인 세션 유지 (.webloop/browser/perplexity/<브라우저>/)
+  headless: false         # 보안 확인 화면이 뜰 수 있으므로 창을 보이게 두는 것을 권장
+  locale: ko-KR
+
+# 매 회차 새 질문(새 스레드). 같은 스레드에서 이어 묻고 싶으면 continue
+session: new
+newSession:
+  goto: https://www.perplexity.ai/
+
+ready:
+  selector: ["#ask-input", "div[contenteditable='true'][role='textbox']", "textarea"]
+  timeoutMs: 45000
+
+input:
+  selector: ["#ask-input", "div[contenteditable='true'][role='textbox']", "textarea"]
+  method: insert          # contenteditable 입력창이라 키보드 삽입 방식 사용
+  clear: true
+
+submit:
+  press: Enter
+
+wait:
+  all:
+    # 1) 새 답변 블록이 생겼는가
+    - new_element: ["div[id^='markdown-content-']", "div.prose"]
+    # 2) '중지' 버튼이 사라졌는가 (생성 끝)
+    - selector_hidden: ["button[aria-label*='Stop']", "button[data-testid='stop-generating-response-button']", "button[aria-label*='중지']"]
+    # 3) 답변 글자가 3초 동안 바뀌지 않는가
+    - text_stable: { selector: ["div[id^='markdown-content-']", "div.prose"], ms: 3000 }
+  startTimeoutMs: 60000
+  timeoutMs: 300000       # 심층 검색(Pro/Research)은 오래 걸릴 수 있음
+
+extract:
+  text: ["div[id^='markdown-content-']", "div.prose"]
+  format: markdown
+  pick: last
+  extra:
+    sources: ["div[id^='markdown-content-'] a[href^='http']", "div.prose a[href^='http']"]
+
+authCheck:
+  # 사람 확인(Cloudflare 등) 화면이면 우회하지 않고 exit 3 → `webloop login perplexity`로 직접 처리
+  titleContains: ["Just a moment", "잠시만 기다리십시오", "Attention Required"]
+  selectorVisible: "iframe[src*='challenges.cloudflare.com']"
+
+cooldownMs: 5000
