@@ -56,6 +56,7 @@ webloop ui                                              # http://127.0.0.1:4777
 - [docs/CLI.md](docs/CLI.md) — 전체 명령, 옵션, 종료 코드, JSON 출력
 - [docs/PROFILES.md](docs/PROFILES.md) — 사이트 프로파일·목표 파일 작성법
 - [AGENTS.md](AGENTS.md) — 다른 AI가 이 도구를 쓰는 법
+- [docs/HANDOFF.md](docs/HANDOFF.md) — Windows PC에서 이어서 개발·검증하기 위한 인수인계
 - [docs/TESTING.md](docs/TESTING.md) — 로컬 테스트 방법 (macOS+Whale, Windows+Edge)
 - [docs/REVIEW.md](docs/REVIEW.md) — 계획서 검토 결과와 반영 내용
 - [docs/PLAN.md](docs/PLAN.md) — 원본 개발 계획서
